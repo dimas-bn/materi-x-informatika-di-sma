@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informatika dan Keterampilan Generik - Kelas 10 SMA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .progress-bar {
+            transition: width 0.5s ease;
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .quiz-option {
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover {
+            background-color: #f3f4f6;
+            border-color: #6366f1;
+        }
+        
+        .quiz-option.selected {
+            background-color: #eef2ff;
+            border-color: #6366f1;
+            color: #6366f1;
+        }
+        
+        .quiz-option.correct {
+            background-color: #dcfce7;
+            border-color: #16a34a;
+            color: #16a34a;
+        }
+        
+        .quiz-option.incorrect {
+            background-color: #fef2f2;
+            border-color: #dc2626;
+            color: #dc2626;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-white bg-opacity-20 p-3 rounded-lg">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold">Informatika SMA</h1>
+                        <p class="text-blue-100">Kelas 10 - Semester 1</p>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <div class="bg-white bg-opacity-20 px-4 py-2 rounded-lg">
+                        <span class="text-sm">Progress: <span id="overall-progress">0%</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b">
+        <div class="container mx-auto px-4">
+            <div class="flex space-x-8 overflow-x-auto">
+                <button onclick="showSection('overview')" class="nav-btn py-4 px-2 border-b-2 border-indigo-500 text-indigo-600 font-medium whitespace-nowrap">
+                    📚 Pengantar
+                </button>
+                <button onclick="showSection('materi')" class="nav-btn py-4 px-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium whitespace-nowrap">
+                    📖 Materi
+                </button>
+                <button onclick="showSection('aktivitas')" class="nav-btn py-4 px-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium whitespace-nowrap">
+                    🎯 Aktivitas
+                </button>
+                <button onclick="showSection('quiz')" class="nav-btn py-4 px-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium whitespace-nowrap">
+                    🧠 Kuis
+                </button>
+                <button onclick="showSection('refleksi')" class="nav-btn py-4 px-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium whitespace-nowrap">
+                    💭 Refleksi
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Overview Section -->
+        <section id="overview" class="section-content">
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-white rounded-xl shadow-lg p-8 mb-8 fade-in">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-gray-800 mb-4">Informatika dan Keterampilan Generik</h2>
+                        <p class="text-xl text-gray-600">Memahami Peran Informatika di Sekolah Menengah Atas</p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-8 mb-8">
+                        <div class="bg-gradient-to-br from-blue-50 to-indigo-100 p-6 rounded-lg">
+                            <h3 class="text-lg font-semibold text-indigo-800 mb-3">🎯 Tujuan Pembelajaran</h3>
+                            <ul class="space-y-2 text-gray-700">
+                                <li>• Memahami konsep dasar informatika</li>
+                                <li>• Mengenal keterampilan generik dalam informatika</li>
+                                <li>• Mengidentifikasi peran informatika di SMA</li>
+                                <li>• Mengembangkan computational thinking</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-green-50 to-emerald-100 p-6 rounded-lg">
+                            <h3 class="text-lg font-semibold text-emerald-800 mb-3">⏱️ Estimasi Waktu</h3>
+                            <div class="space-y-2 text-gray-700">
+                                <p><strong>Total:</strong> 2 x 45 menit</p>
+                                <p><strong>Materi:</strong> 60 menit</p>
+                                <p><strong>Aktivitas:</strong> 20 menit</p>
+                                <p><strong>Evaluasi:</strong> 10 menit</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-r-lg">
+                        <h3 class="text-lg font-semibold text-yellow-800 mb-2">💡 Mengapa Informatika Penting?</h3>
+                        <p class="text-gray-700">
+                            Di era digital ini, informatika bukan hanya tentang komputer dan coding. Informatika mengembangkan cara berpikir sistematis, 
+                            logis, dan kreatif yang berguna dalam semua aspek kehidupan. Mari kita jelajahi bersama!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Materi Section -->
+        <section id="materi" class="section-content hidden">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">📖 Materi Pembelajaran</h2>
+                
+                <!-- Progress Bar -->
+                <div class="bg-white rounded-lg p-4 mb-8 shadow-sm">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-medium text-gray-700">Progress Materi</span>
+                        <span class="text-sm text-gray-500" id="materi-progress">0/4 selesai</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="progress-bar bg-indigo-600 h-2 rounded-full" style="width: 0%" id="materi-progress-bar"></div>
+                    </div>
+                </div>
+
+                <!-- Materi Cards -->
+                <div class="space-y-6">
+                    <!-- Materi 1 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                        <div class="bg-gradient-to-r from-blue-500 to-purple-600 p-4">
+                            <h3 class="text-xl font-bold text-white flex items-center">
+                                <span class="bg-white bg-opacity-20 p-2 rounded-lg mr-3">1</span>
+                                Apa itu Informatika?
+                            </h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="prose max-w-none">
+                                <p class="text-gray-700 mb-4">
+                                    <strong>Informatika</strong> adalah bidang ilmu yang mempelajari tentang pengolahan informasi menggunakan teknologi komputer. 
+                                    Informatika mencakup berbagai aspek mulai dari pemrograman, analisis data, hingga pengembangan sistem.
+                                </p>
+                                
+                                <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                                    <h4 class="font-semibold text-blue-800 mb-2">🔍 Ruang Lingkup Informatika:</h4>
+                                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                        <li>Algoritma dan Pemrograman</li>
+                                        <li>Struktur Data</li>
+                                        <li>Basis Data</li>
+                                        <li>Jaringan Komputer</li>
+                                        <li>Keamanan Informasi</li>
+                                        <li>Kecerdasan Buatan</li>
+                                    </ul>
+                                </div>
+                                
+                                <button onclick="markMateriComplete(1)" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+                                    ✓ Tandai Selesai
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Materi 2 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                        <div class="bg-gradient-to-r from-green-500 to-teal-600 p-4">
+                            <h3 class="text-xl font-bold text-white flex items-center">
+                                <span class="bg-white bg-opacity-20 p-2 rounded-lg mr-3">2</span>
+                                Keterampilan Generik dalam Informatika
+                            </h3>
+                        </div>
+                        <div class="p-6">
+                            <p class="text-gray-700 mb-4">
+                                Keterampilan generik adalah kemampuan dasar yang dapat diterapkan dalam berbagai situasi dan bidang. 
+                                Dalam informatika, keterampilan ini sangat penting untuk sukses.
+                            </p>
+                            
+                            <div class="grid md:grid-cols-2 gap-4 mb-4">
+                                <div class="bg-green-50 p-4 rounded-lg">
+                                    <h4 class="font-semibold text-green-800 mb-2">🧠 Computational Thinking</h4>
+                                    <ul class="text-sm text-gray-700 space-y-1">
+                                        <li>• Decomposition (Penguraian)</li>
+                                        <li>• Pattern Recognition (Pengenalan Pola)</li>
+                                        <li>• Abstraction (Abstraksi)</li>
+                                        <li>• Algorithm Design (Desain Algoritma)</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="bg-teal-50 p-4 rounded-lg">
+                                    <h4 class="font-semibold text-teal-800 mb-2">🤝 Soft Skills</h4>
+                                    <ul class="text-sm text-gray-700 space-y-1">
+                                        <li>• Problem Solving</li>
+                                        <li>• Critical Thinking</li>
+                                        <li>• Collaboration</li>
+                                        <li>• Communication</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <button onclick="markMateriComplete(2)" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                                ✓ Tandai Selesai
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Materi 3 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                        <div class="bg-gradient-to-r from-orange-500 to-red-600 p-4">
+                            <h3 class="text-xl font-bold text-white flex items-center">
+                                <span class="bg-white bg-opacity-20 p-2 rounded-lg mr-3">3</span>
+                                Peran Informatika di SMA
+                            </h3>
+                        </div>
+                        <div class="p-6">
+                            <p class="text-gray-700 mb-4">
+                                Informatika di SMA berperan penting dalam mempersiapkan siswa menghadapi tantangan abad ke-21 
+                                dan mengembangkan literasi digital yang diperlukan.
+                            </p>
+                            
+                            <div class="space-y-4 mb-4">
+                                <div class="flex items-start space-x-3">
+                                    <div class="bg-orange-100 p-2 rounded-lg">
+                                        <span class="text-orange-600">🎓</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-800">Pengembangan Literasi Digital</h4>
+                                        <p class="text-gray-600 text-sm">Memahami teknologi dan menggunakannya secara bertanggung jawab</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start space-x-3">
+                                    <div class="bg-red-100 p-2 rounded-lg">
+                                        <span class="text-red-600">🚀</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-800">Persiapan Karir Masa Depan</h4>
+                                        <p class="text-gray-600 text-sm">Membuka peluang karir di bidang teknologi dan industri 4.0</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start space-x-3">
+                                    <div class="bg-yellow-100 p-2 rounded-lg">
+                                        <span class="text-yellow-600">🧩</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-800">Pengembangan Logical Thinking</h4>
+                                        <p class="text-gray-600 text-sm">Melatih kemampuan berpikir logis dan sistematis</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button onclick="markMateriComplete(3)" class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors">
+                                ✓ Tandai Selesai
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Materi 4 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                        <div class="bg-gradient-to-r from-purple-500 to-pink-600 p-4">
+                            <h3 class="text-xl font-bold text-white flex items-center">
+                                <span class="bg-white bg-opacity-20 p-2 rounded-lg mr-3">4</span>
+                                Implementasi di Kehidupan Sehari-hari
+                            </h3>
+                        </div>
+                        <div class="p-6">
+                            <p class="text-gray-700 mb-4">
+                                Informatika tidak hanya teori, tetapi dapat diaplikasikan dalam berbagai aspek kehidupan sehari-hari 
+                                untuk memecahkan masalah dan meningkatkan efisiensi.
+                            </p>
+                            
+                            <div class="grid md:grid-cols-3 gap-4 mb-4">
+                                <div class="text-center p-4 bg-purple-50 rounded-lg">
+                                    <div class="text-3xl mb-2">📱</div>
+                                    <h4 class="font-semibold text-purple-800">Aplikasi Mobile</h4>
+                                    <p class="text-sm text-gray-600">Pengembangan aplikasi untuk memudahkan aktivitas</p>
+                                </div>
+                                
+                                <div class="text-center p-4 bg-pink-50 rounded-lg">
+                                    <div class="text-3xl mb-2">📊</div>
+                                    <h4 class="font-semibold text-pink-800">Analisis Data</h4>
+                                    <p class="text-sm text-gray-600">Mengolah data untuk pengambilan keputusan</p>
+                                </div>
+                                
+                                <div class="text-center p-4 bg-indigo-50 rounded-lg">
+                                    <div class="text-3xl mb-2">🤖</div>
+                                    <h4 class="font-semibold text-indigo-800">Otomasi</h4>
+                                    <p class="text-sm text-gray-600">Mengotomatisasi tugas-tugas repetitif</p>
+                                </div>
+                            </div>
+                            
+                            <button onclick="markMateriComplete(4)" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors">
+                                ✓ Tandai Selesai
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Aktivitas Section -->
+        <section id="aktivitas" class="section-content hidden">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">🎯 Aktivitas Pembelajaran</h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Aktivitas 1 -->
+                    <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                                <span class="text-2xl">🔍</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">Mind Mapping</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">
+                            Buat mind map tentang "Peran Informatika dalam Kehidupan Sehari-hari" dengan minimal 5 cabang utama.
+                        </p>
+                        <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                            <h4 class="font-semibold text-blue-800 mb-2">Langkah-langkah:</h4>
+                            <ol class="list-decimal list-inside text-sm text-gray-700 space-y-1">
+                                <li>Tulis "Informatika" di tengah</li>
+                                <li>Buat 5 cabang: Pendidikan, Kesehatan, Bisnis, Hiburan, Komunikasi</li>
+                                <li>Tambahkan sub-cabang untuk setiap kategori</li>
+                                <li>Berikan contoh konkret</li>
+                            </ol>
+                        </div>
+                        <button onclick="completeActivity(1)" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                            Selesaikan Aktivitas
+                        </button>
+                    </div>
+
+                    <!-- Aktivitas 2 -->
+                    <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-green-100 p-3 rounded-lg mr-4">
+                                <span class="text-2xl">🧩</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">Problem Solving</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">
+                            Identifikasi masalah di sekolah yang bisa diselesaikan dengan pendekatan informatika.
+                        </p>
+                        <div class="bg-green-50 p-4 rounded-lg mb-4">
+                            <h4 class="font-semibold text-green-800 mb-2">Contoh Masalah:</h4>
+                            <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+                                <li>Sistem absensi manual yang tidak efisien</li>
+                                <li>Pencarian buku di perpustakaan yang sulit</li>
+                                <li>Komunikasi antar siswa dan guru</li>
+                                <li>Pengelolaan jadwal kegiatan sekolah</li>
+                            </ul>
+                        </div>
+                        <button onclick="completeActivity(2)" class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors">
+                            Selesaikan Aktivitas
+                        </button>
+                    </div>
+
+                    <!-- Aktivitas 3 -->
+                    <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-purple-100 p-3 rounded-lg mr-4">
+                                <span class="text-2xl">👥</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">Diskusi Kelompok</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">
+                            Diskusikan dengan teman tentang "Dampak Positif dan Negatif Teknologi Informatika".
+                        </p>
+                        <div class="bg-purple-50 p-4 rounded-lg mb-4">
+                            <h4 class="font-semibold text-purple-800 mb-2">Poin Diskusi:</h4>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <strong class="text-green-600">Dampak Positif:</strong>
+                                    <ul class="list-disc list-inside text-gray-700 mt-1">
+                                        <li>Kemudahan akses informasi</li>
+                                        <li>Efisiensi kerja</li>
+                                        <li>Komunikasi global</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <strong class="text-red-600">Dampak Negatif:</strong>
+                                    <ul class="list-disc list-inside text-gray-700 mt-1">
+                                        <li>Ketergantungan teknologi</li>
+                                        <li>Privasi dan keamanan</li>
+                                        <li>Digital divide</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="completeActivity(3)" class="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors">
+                            Selesaikan Aktivitas
+                        </button>
+                    </div>
+
+                    <!-- Aktivitas 4 -->
+                    <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-orange-100 p-3 rounded-lg mr-4">
+                                <span class="text-2xl">📝</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">Rencana Belajar</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">
+                            Buat rencana belajar informatika untuk 1 semester ke depan dengan target yang jelas.
+                        </p>
+                        <div class="bg-orange-50 p-4 rounded-lg mb-4">
+                            <h4 class="font-semibold text-orange-800 mb-2">Template Rencana:</h4>
+                            <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+                                <li>Bulan 1-2: Dasar-dasar algoritma</li>
+                                <li>Bulan 3-4: Pengenalan pemrograman</li>
+                                <li>Bulan 5-6: Project sederhana</li>
+                                <li>Target: Membuat aplikasi kalkulator</li>
+                            </ul>
+                        </div>
+                        <button onclick="completeActivity(4)" class="w-full bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-700 transition-colors">
+                            Selesaikan Aktivitas
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Progress Aktivitas -->
+                <div class="mt-8 bg-white rounded-lg p-6 shadow-lg">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Progress Aktivitas</h3>
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-medium text-gray-700">Aktivitas Selesai</span>
+                        <span class="text-sm text-gray-500" id="activity-progress">0/4 selesai</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-3">
+                        <div class="progress-bar bg-green-600 h-3 rounded-full" style="width: 0%" id="activity-progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section id="quiz" class="section-content hidden">
+            <div class="max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">🧠 Kuis Pemahaman</h2>
+                
+                <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-semibold text-gray-800">Soal <span id="current-question">1</span> dari <span id="total-questions">5</span></h3>
+                        <div class="text-sm text-gray-500">
+                            Skor: <span id="quiz-score">0</span>/5
+                        </div>
+                    </div>
+                    
+                    <div id="quiz-container">
+                        <!-- Quiz questions will be loaded here -->
+                    </div>
+                    
+                    <div class="flex justify-between mt-6">
+                        <button id="prev-btn" onclick="previousQuestion()" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors" disabled>
+                            ← Sebelumnya
+                        </button>
+                        <button id="next-btn" onclick="nextQuestion()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+                            Selanjutnya →
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="quiz-result" class="bg-white rounded-xl shadow-lg p-6 hidden">
+                    <div class="text-center">
+                        <div class="text-6xl mb-4" id="result-emoji">🎉</div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2" id="result-title">Selamat!</h3>
+                        <p class="text-gray-600 mb-4" id="result-message">Anda telah menyelesaikan kuis dengan baik!</p>
+                        <div class="bg-indigo-50 p-4 rounded-lg mb-4">
+                            <p class="text-lg font-semibold text-indigo-800">
+                                Skor Akhir: <span id="final-score">0</span>/5 (<span id="percentage">0</span>%)
+                            </p>
+                        </div>
+                        <button onclick="restartQuiz()" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+                            Ulangi Kuis
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Refleksi Section -->
+        <section id="refleksi" class="section-content hidden">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">💭 Refleksi Pembelajaran</h2>
+                
+                <div class="bg-white rounded-xl shadow-lg p-8">
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Rangkuman Pembelajaran</h3>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-blue-800 mb-2">📚 Yang Telah Dipelajari:</h4>
+                                <ul class="text-sm text-gray-700 space-y-1">
+                                    <li>• Konsep dasar informatika</li>
+                                    <li>• Keterampilan generik dalam informatika</li>
+                                    <li>• Peran informatika di SMA</li>
+                                    <li>• Implementasi dalam kehidupan sehari-hari</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-green-800 mb-2">🎯 Keterampilan yang Dikembangkan:</h4>
+                                <ul class="text-sm text-gray-700 space-y-1">
+                                    <li>• Computational thinking</li>
+                                    <li>• Problem solving</li>
+                                    <li>• Critical thinking</li>
+                                    <li>• Collaboration skills</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div class="bg-gray-50 p-6 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-3">🤔 Pertanyaan Refleksi:</h4>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                                        1. Apa hal paling menarik yang Anda pelajari hari ini?
+                                    </label>
+                                    <textarea class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" 
+                                              rows="3" placeholder="Tuliskan refleksi Anda..."></textarea>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                                        2. Bagaimana Anda akan menerapkan pengetahuan ini dalam kehidupan sehari-hari?
+                                    </label>
+                                    <textarea class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" 
+                                              rows="3" placeholder="Tuliskan rencana penerapan..."></textarea>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                                        3. Apa yang ingin Anda pelajari lebih lanjut tentang informatika?
+                                    </label>
+                                    <textarea class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" 
+                                              rows="3" placeholder="Tuliskan topik yang ingin dipelajari..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center">
+                            <button onclick="submitReflection()" class="bg-indigo-600 text-white px-8 py-3 rounded-lg hover:bg-indigo-700 transition-colors font-medium">
+                                💾 Simpan Refleksi
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Learning Summary -->
+                <div class="mt-8 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl p-8 text-center">
+                    <h3 class="text-2xl font-bold mb-4">🎓 Selamat!</h3>
+                    <p class="text-lg mb-4">Anda telah menyelesaikan pembelajaran tentang "Informatika dan Keterampilan Generik"</p>
+                    <div class="bg-white bg-opacity-20 p-4 rounded-lg inline-block">
+                        <p class="text-sm">Progress Keseluruhan: <span id="total-progress">0%</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-300">© 2024 Pembelajaran Informatika SMA - Kelas 10</p>
+            <p class="text-gray-400 text-sm mt-2">Dikembangkan untuk mendukung pembelajaran informatika yang interaktif dan menyenangkan</p>
+        </div>
+    </footer>
+
+    <script>
+        // Global variables
+        let currentSection = 'overview';
+        let materiProgress = new Set();
+        let activityProgress = new Set();
+        let quizData = [
+            {
+                question: "Apa yang dimaksud dengan informatika?",
+                options: [
+                    "Ilmu tentang komputer saja",
+                    "Bidang ilmu yang mempelajari pengolahan informasi menggunakan teknologi komputer",
+                    "Cara menggunakan internet",
+                    "Program untuk membuat website"
+                ],
+                correct: 1
+            },
+            {
+                question: "Manakah yang BUKAN termasuk keterampilan generik dalam informatika?",
+                options: [
+                    "Computational thinking",
+                    "Problem solving",
+                    "Menghafal kode program",
+                    "Critical thinking"
+                ],
+                correct: 2
+            },
+            {
+                question: "Apa tujuan utama pembelajaran informatika di SMA?",
+                options: [
+                    "Membuat semua siswa menjadi programmer",
+                    "Mengembangkan literasi digital dan kemampuan berpikir logis",
+                    "Mengajarkan cara bermain game",
+                    "Menggantikan mata pelajaran lain"
+                ],
+                correct: 1
+            },
+            {
+                question: "Computational thinking terdiri dari beberapa komponen. Manakah yang TIDAK termasuk?",
+                options: [
+                    "Decomposition (Penguraian)",
+                    "Pattern Recognition (Pengenalan Pola)",
+                    "Memorization (Menghafal)",
+                    "Algorithm Design (Desain Algoritma)"
+                ],
+                correct: 2
+            },
+            {
+                question: "Bagaimana informatika dapat membantu dalam kehidupan sehari-hari?",
+                options: [
+                    "Hanya untuk bermain game",
+                    "Mengotomatisasi tugas, analisis data, dan pengembangan aplikasi",
+                    "Menggantikan semua pekerjaan manusia",
+                    "Hanya untuk orang yang pintar matematika"
+                ],
+                correct: 1
+            }
+        ];
+        
+        let currentQuiz = 0;
+        let quizScore = 0;
+        let userAnswers = [];
+
+        // Navigation functions
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.section-content').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName).classList.remove('hidden');
+            
+            // Update navigation
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('border-indigo-500', 'text-indigo-600');
+                btn.classList.add('border-transparent', 'text-gray-500');
+            });
+            
+            event.target.classList.remove('border-transparent', 'text-gray-500');
+            event.target.classList.add('border-indigo-500', 'text-indigo-600');
+            
+            currentSection = sectionName;
+            
+            // Initialize section-specific content
+            if (sectionName === 'quiz') {
+                initializeQuiz();
+            }
+            
+            // Add fade-in animation
+            setTimeout(() => {
+                document.querySelectorAll('.fade-in').forEach(element => {
+                    element.classList.add('visible');
+                });
+            }, 100);
+        }
+
+        // Materi progress functions
+        function markMateriComplete(materiNumber) {
+            materiProgress.add(materiNumber);
+            updateMateriProgress();
+            updateOverallProgress();
+            
+            // Visual feedback
+            event.target.innerHTML = '✅ Selesai';
+            event.target.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+            event.target.classList.add('bg-green-600', 'hover:bg-green-700');
+            event.target.disabled = true;
+        }
+
+        function updateMateriProgress() {
+            const progress = (materiProgress.size / 4) * 100;
+            document.getElementById('materi-progress').textContent = `${materiProgress.size}/4 selesai`;
+            document.getElementById('materi-progress-bar').style.width = `${progress}%`;
+        }
+
+        // Activity functions
+        function completeActivity(activityNumber) {
+            activityProgress.add(activityNumber);
+            updateActivityProgress();
+            updateOverallProgress();
+            
+            // Visual feedback
+            event.target.innerHTML = '✅ Selesai';
+            event.target.classList.remove('bg-blue-600', 'bg-green-600', 'bg-purple-600', 'bg-orange-600');
+            event.target.classList.add('bg-gray-600');
+            event.target.disabled = true;
+        }
+
+        function updateActivityProgress() {
+            const progress = (activityProgress.size / 4) * 100;
+            document.getElementById('activity-progress').textContent = `${activityProgress.size}/4 selesai`;
+            document.getElementById('activity-progress-bar').style.width = `${progress}%`;
+        }
+
+        // Quiz functions
+        function initializeQuiz() {
+            currentQuiz = 0;
+            quizScore = 0;
+            userAnswers = [];
+            document.getElementById('quiz-result').classList.add('hidden');
+            document.querySelector('#quiz-container').parentElement.classList.remove('hidden');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const question = quizData[currentQuiz];
+            const container = document.getElementById('quiz-container');
+            
+            container.innerHTML = `
+                <div class="mb-6">
+                    <h4 class="text-lg font-semibold text-gray-800 mb-4">${question.question}</h4>
+                    <div class="space-y-3">
+                        ${question.options.map((option, index) => `
+                            <div class="quiz-option border-2 border-gray-200 rounded-lg p-4 cursor-pointer" onclick="selectAnswer(${index})">
+                                <div class="flex items-center">
+                                    <div class="w-4 h-4 border-2 border-gray-300 rounded-full mr-3 option-radio"></div>
+                                    <span>${option}</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            // Update question counter
+            document.getElementById('current-question').textContent = currentQuiz + 1;
+            document.getElementById('total-questions').textContent = quizData.length;
+            
+            // Update navigation buttons
+            document.getElementById('prev-btn').disabled = currentQuiz === 0;
+            document.getElementById('next-btn').textContent = currentQuiz === quizData.length - 1 ? 'Selesai' : 'Selanjutnya →';
+        }
+
+        function selectAnswer(answerIndex) {
+            // Remove previous selection
+            document.querySelectorAll('.quiz-option').forEach(option => {
+                option.classList.remove('selected');
+                option.querySelector('.option-radio').classList.remove('bg-indigo-600');
+            });
+            
+            // Add selection to clicked option
+            const selectedOption = document.querySelectorAll('.quiz-option')[answerIndex];
+            selectedOption.classList.add('selected');
+            selectedOption.querySelector('.option-radio').classList.add('bg-indigo-600');
+            
+            // Store answer
+            userAnswers[currentQuiz] = answerIndex;
+        }
+
+        function nextQuestion() {
+            if (userAnswers[currentQuiz] !== undefined) {
+                // Check if answer is correct
+                if (userAnswers[currentQuiz] === quizData[currentQuiz].correct) {
+                    quizScore++;
+                }
+                
+                if (currentQuiz < quizData.length - 1) {
+                    currentQuiz++;
+                    loadQuestion();
+                } else {
+                    showQuizResult();
+                }
+                
+                // Update score display
+                document.getElementById('quiz-score').textContent = quizScore;
+            } else {
+                alert('Silakan pilih jawaban terlebih dahulu!');
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuiz > 0) {
+                currentQuiz--;
+                loadQuestion();
+                
+                // Restore previous answer if exists
+                if (userAnswers[currentQuiz] !== undefined) {
+                    const selectedOption = document.querySelectorAll('.quiz-option')[userAnswers[currentQuiz]];
+                    selectedOption.classList.add('selected');
+                    selectedOption.querySelector('.option-radio').classList.add('bg-indigo-600');
+                }
+            }
+        }
+
+        function showQuizResult() {
+            document.querySelector('#quiz-container').parentElement.classList.add('hidden');
+            document.getElementById('quiz-result').classList.remove('hidden');
+            
+            const percentage = Math.round((quizScore / quizData.length) * 100);
+            
+            document.getElementById('final-score').textContent = quizScore;
+            document.getElementById('percentage').textContent = percentage;
+            
+            // Set result message based on score
+            let emoji, title, message;
+            if (percentage >= 80) {
+                emoji = '🎉';
+                title = 'Luar Biasa!';
+                message = 'Anda memahami materi dengan sangat baik!';
+            } else if (percentage >= 60) {
+                emoji = '👍';
+                title = 'Bagus!';
+                message = 'Pemahaman Anda cukup baik, terus belajar!';
+            } else {
+                emoji = '📚';
+                title = 'Terus Belajar!';
+                message = 'Silakan pelajari materi sekali lagi untuk pemahaman yang lebih baik.';
+            }
+            
+            document.getElementById('result-emoji').textContent = emoji;
+            document.getElementById('result-title').textContent = title;
+            document.getElementById('result-message').textContent = message;
+            
+            updateOverallProgress();
+        }
+
+        function restartQuiz() {
+            initializeQuiz();
+        }
+
+        // Reflection functions
+        function submitReflection() {
+            const textareas = document.querySelectorAll('#refleksi textarea');
+            let allFilled = true;
+            
+            textareas.forEach(textarea => {
+                if (textarea.value.trim() === '') {
+                    allFilled = false;
+                }
+            });
+            
+            if (allFilled) {
+                alert('Refleksi berhasil disimpan! Terima kasih atas partisipasi Anda dalam pembelajaran ini.');
+                updateOverallProgress();
+            } else {
+                alert('Mohon lengkapi semua pertanyaan refleksi terlebih dahulu.');
+            }
+        }
+
+        // Overall progress calculation
+        function updateOverallProgress() {
+            const materiPercent = (materiProgress.size / 4) * 25; // 25% of total
+            const activityPercent = (activityProgress.size / 4) * 25; // 25% of total
+            const quizPercent = (quizScore / quizData.length) * 25; // 25% of total
+            const reflectionPercent = checkReflectionComplete() ? 25 : 0; // 25% of total
+            
+            const totalProgress = Math.round(materiPercent + activityPercent + quizPercent + reflectionPercent);
+            
+            document.getElementById('overall-progress').textContent = `${totalProgress}%`;
+            document.getElementById('total-progress').textContent = `${totalProgress}%`;
+        }
+
+        function checkReflectionComplete() {
+            const textareas = document.querySelectorAll('#refleksi textarea');
+            return Array.from(textareas).every(textarea => textarea.value.trim() !== '');
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add fade-in animation to visible elements
+            setTimeout(() => {
+                document.querySelectorAll('.fade-in').forEach(element => {
+                    element.classList.add('visible');
+                });
+            }, 300);
+            
+            // Initialize progress
+            updateOverallProgress();
+        });
+
+        // Smooth scrolling for better UX
+        document.addEventListener('click', function(e) {
+            if (e.target.matches('.nav-btn')) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96a2629dc1226e7c',t:'MTc1NDM1NTkxNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
